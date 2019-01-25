@@ -16,5 +16,10 @@ namespace EvAlg
         {
             InitializeComponent();
         }
+
+        private void b_test_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("hello world");
+        }
     }
 }
