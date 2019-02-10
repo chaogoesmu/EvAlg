@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +13,13 @@ namespace EvAlg
 {
     public partial class Form1 : Form
     {
+        //TODO: move this into it's own class as a manager, should not be part of the form
+        Boolean runFitness = false;
+        private int popSize = 1000;
+        private int popSafe = 100;//amount to directly copy and breed
+        private int popFail = 500;//amount that is removed before breeding
+
+        List<Investor> myInvestorList;
         public Form1()
         {
             InitializeComponent();
@@ -19,7 +27,12 @@ namespace EvAlg
 
         private void b_test_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("hello world");
+            //should this be a timer or should it just fire as soon as enough time has elapsed?
+            //TODO: if performance suffers switch this to a standard for list.
+            foreach (Investor current in myInvestorList)
+            {
+                current.step();
+            }
         }
     }
 
@@ -31,11 +44,26 @@ namespace EvAlg
         decimal funds;
         decimal currentWorth;//not sure if this is required, may need to be a function
         string formula;
+        private decimal fitness;
+        public decimal Fitness
+        {
+            get { return fitness; }
+        }
         List<int> tracking;//need to figure out how to track data with a list or even if I want one.
 
         public Investor()
         {
             myTradeList = new List<Trade>();
+        }
+
+
+        /// <summary>
+        /// use this to process one turns actions
+        /// </summary>
+        /// <returns>true if completed without issues</returns>
+        public Boolean step()
+        {
+            return true;
         }
 
     }
