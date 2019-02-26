@@ -14,10 +14,8 @@ namespace EvAlg
     public partial class Form1 : Form
     {
         //TODO: move this into it's own class as a manager, should not be part of the form
-        Boolean runFitness = false;
-        private int popSize = 1000;
-        private int popSafe = 100;//amount to directly copy and breed
-        private int popFail = 500;//amount that is removed before breeding
+        
+
 
         List<Investor> myInvestorList;
         public Form1()
@@ -29,6 +27,39 @@ namespace EvAlg
         {
             //should this be a timer or should it just fire as soon as enough time has elapsed?
             //TODO: if performance suffers switch this to a standard for list.
+
+        }
+
+        private void runGen()
+        {
+
+        }
+    }
+
+    public class EvAlgManager
+    {
+        private int popSize = 1000;
+        private int popSafe = 100;//amount to directly copy and breed
+        private int popFail = 600;//amount that is removed before breeding
+        private int popReserve = 0;//amount to spawn as new to keep the gene pool diverse
+        private bool runFitness = false;
+        List<Investor> myInvestorList;
+
+        public EvAlgManager()
+        {
+            //populate the list
+        }
+
+        public void populate()
+        {
+            for(int i = myInvestorList.Count; i < popSize; i++)
+            {
+                myInvestorList.Add(new Investor());
+            }
+        }
+
+        public void runGen()
+        {
             foreach (Investor current in myInvestorList)
             {
                 current.step();
@@ -40,6 +71,11 @@ namespace EvAlg
     {
         //needs to have a formula, how much money it has available, and which stocks it currently has purchased
         //among those stocks purchased it should probably track purchase price and trade time.
+        //if you trade the same stock within the same day more than three times within 2 weeks your account gets flagged for daytrading.
+        //need to have none of them do this.
+        //each of the investors only invest in a single stock while it seems like a good choice may prevent something.
+        //start off that way?
+        //TODO: fix that, worry about it later
         List<Trade> myTradeList;
         decimal funds;
         decimal currentWorth;//not sure if this is required, may need to be a function
@@ -74,8 +110,12 @@ namespace EvAlg
         int Amount;
         decimal Cost;
 
-        public Trade(string symbol, DateTime tradeTime, int amount, decimal cost)
+        public Trade(string symbol, int amount, decimal cost)
         {
+            TradeTime = DateTime.Now;
+            Symbol = symbol;
+            Amount = amount;
+            Cost = cost;
         }
     }
 }
