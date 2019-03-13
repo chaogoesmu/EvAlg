@@ -27,7 +27,7 @@ namespace EvAlg
         {
             //should this be a timer or should it just fire as soon as enough time has elapsed?
             //TODO: if performance suffers switch this to a standard for list.
-
+            MessageBox.Show(StringGuesser.RandomString(10));
         }
 
         private void runGen()
@@ -36,7 +36,7 @@ namespace EvAlg
         }
     }
 
-    public class EvAlgManager
+    public partial class EvAlgManager
     {
         private int popSize = 1000;
         private int popSafe = 100;//amount to directly copy and breed
@@ -62,9 +62,101 @@ namespace EvAlg
         {
             foreach (Investor current in myInvestorList)
             {
+                
                 current.step();
             }
         }
+    }
+
+    public class StringGuesser : IComparable
+    {
+        static string target = "";
+        private static char[] charTarget;
+        private static char[] charCurrent;
+        public int Fitness;
+        //just to have something I can work with
+
+
+        public StringGuesser(string Target)
+        {
+            target = Target;
+            charTarget = target.ToCharArray(0, target.Length);
+            charCurrent = RandomString(target.Length).ToCharArray();
+        }
+        
+
+        public StringGuesser()
+        {
+            
+        }
+
+
+        public StringGuesser mutation()
+        {
+            return new StringGuesser();
+        }
+
+
+        public int ComareTo(StringGuesser obj)
+        {
+            if (obj.Fitness > this.Fitness)
+            { return 1; }
+            return 0;
+            throw new ArgumentException("Object is not a stringthingy");
+        }
+
+
+        public int CompareTo(object obj)
+        {
+            if(obj is StringGuesser)
+            {
+                StringGuesser objConverted = (StringGuesser)obj;
+                if (objConverted.Fitness > this.Fitness)
+                { return 1; }
+                return 0;
+            }
+            throw new ArgumentException("Object is not a stringthingy");
+        }
+
+
+        public int fitness()
+        {
+            int fit =0;
+            int Max = ushort.MaxValue;
+            for (int i = 0; i < charTarget.Length; i++)
+            {
+                int mod = Math.Abs(((int)charCurrent[i] - (int)charTarget[i])/1000);
+                if (mod == 0)
+                {
+                    fit += 10000;
+                }
+                else
+                {
+                    fit -= mod;
+                }                
+            }
+            Fitness = fit;
+            return fit;
+        }
+
+        private static Random random = new Random();
+        public static string RandomString(int length)
+        {
+            int Max = ushort.MaxValue;
+            int blah = random.Next(Max);
+            char[] build = new char[length];
+            for (int i = 0; i < length; i++)
+            {
+                build[i] = (char)random.Next(Max);
+            }
+            return new string(build);
+            /*
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+              */
+        }
+
     }
 
     public class Investor
@@ -103,6 +195,8 @@ namespace EvAlg
         }
 
     }
+
+
     public class Trade
     {
         string Symbol;
