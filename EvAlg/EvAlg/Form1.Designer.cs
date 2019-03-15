@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.b_test = new System.Windows.Forms.Button();
+            this.TB1_str_in = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // b_test
@@ -41,21 +42,32 @@
             this.b_test.UseVisualStyleBackColor = true;
             this.b_test.Click += new System.EventHandler(this.b_test_Click);
             // 
+            // TB1_str_in
+            // 
+            this.TB1_str_in.Location = new System.Drawing.Point(413, 42);
+            this.TB1_str_in.Name = "TB1_str_in";
+            this.TB1_str_in.Size = new System.Drawing.Size(180, 20);
+            this.TB1_str_in.TabIndex = 1;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.TB1_str_in);
             this.Controls.Add(this.b_test);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Button b_test;
+        private System.Windows.Forms.TextBox TB1_str_in;
     }
 }
 

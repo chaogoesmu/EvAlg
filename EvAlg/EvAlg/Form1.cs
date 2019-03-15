@@ -27,10 +27,15 @@ namespace EvAlg
         {
             //should this be a timer or should it just fire as soon as enough time has elapsed?
             //TODO: if performance suffers switch this to a standard for list.
-            MessageBox.Show(StringGuesser.RandomString(10));
+            MessageBox.Show(StringGuesser.RandomString(10) + "    " + TB1_str_in.Text);
         }
 
         private void runGen()
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
         {
 
         }
@@ -74,6 +79,8 @@ namespace EvAlg
         private static char[] charTarget;
         private static char[] charCurrent;
         public int Fitness;
+        private int Mutation=5;
+        private int MutStr = 5;
         //just to have something I can work with
 
 
@@ -85,14 +92,27 @@ namespace EvAlg
         }
         
 
-        public StringGuesser()
+        public StringGuesser(char[] importArray)
         {
-            
+            Array.Copy(importArray, charCurrent, importArray.Length);
         }
 
 
         public StringGuesser mutation()
         {
+            char[] test = new char[charCurrent.Length];// = new char[charCurrent.Length](charCurrent);
+            Array.Copy(charCurrent,test, charCurrent.Length );//base, copy, how much to copy
+            for (int i = 0; i < test.Length; i++)
+            {
+                if (random.Next(1000) < Mutation)
+                {
+                    test[i] = (char)(Convert.ToInt32(test[i]) + random.Next(MutStr) - (MutStr / 2));
+                }
+            }
+            if (random.Next(1000) < Mutation)
+            {
+                MutStr += random.Next(MutStr) - (MutStr / 2);//hamfisted, may want to do mutation per character.
+            }
             return new StringGuesser();
         }
 
