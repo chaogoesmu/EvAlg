@@ -92,8 +92,10 @@ namespace EvAlg
         }
         
 
-        public StringGuesser(char[] importArray)
+        public StringGuesser(char[] importArray, int mutIn, int mutStrIn)
         {
+            Mutation = mutIn;
+            MutStr = mutStrIn;
             Array.Copy(importArray, charCurrent, importArray.Length);
         }
 
@@ -113,16 +115,15 @@ namespace EvAlg
             {
                 MutStr += random.Next(MutStr) - (MutStr / 2);//hamfisted, may want to do mutation per character.
             }
-            return new StringGuesser();
+            return new StringGuesser(test, MutStr, Mutation);
         }
 
 
         public int ComareTo(StringGuesser obj)
         {
-            if (obj.Fitness > this.Fitness)
-            { return 1; }
-            return 0;
-            throw new ArgumentException("Object is not a stringthingy");
+            if (obj.GetType() != this.GetType())
+            { throw new ArgumentException("Object is not a stringthingy"); }
+            return this.Fitness - obj.Fitness;
         }
 
 
